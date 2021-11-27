@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt-get update -y
       - run: sudo apt-get install -y docker.io
       - run: docker run -v "$PWD:/src" cdrx/pyinstaller-windows "pyinstaller -F --noupx youtube-upload.spec"
       - uses: actions/upload-artifact@v2
