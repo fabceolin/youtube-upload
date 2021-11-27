@@ -11,6 +11,7 @@ a = Analysis(['bin\\youtube-upload'],
              hiddenimports=[
              "apiclient",
              "youtube-upload"
+
              ],
              
              hookspath=[],
@@ -30,10 +31,10 @@ exe = EXE(pyz,
           a.datas,
           [],
           name='youtube-upload',
-          debug=False,
+          debug=True,
           bootloader_ignore_signals=False,
           strip=False,
-          upx=True,
+          upx=False,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=True,
