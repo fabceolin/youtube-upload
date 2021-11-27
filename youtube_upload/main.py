@@ -69,7 +69,7 @@ struct = collections.namedtuple
 #this doesn't need to be here, but you will need _winreg.
 
 def define_action_on(filetype, registry_title, command, title=None):
-    import _winreg
+    import winreg as _winreg
     """
     define_action_on(filetype, registry_title, command, title=None)
         filetype: either an extension type (ex. ".txt") or one of the special values ("*" or "Directory"). Note that "*" is files only--if you'd like everything to have your action, it must be defined under "*" and "Directory"
@@ -220,6 +220,7 @@ def parse_options_error(parser, options):
 def run_main(parser, options, args, output=sys.stdout):
     if (options.install) and (os.name == 'nt'):
         define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube!")
+        quit()
 
 
     """Run the main scripts from the parsed options/args."""
@@ -305,7 +306,7 @@ def main(arguments):
     # Additional options
     parser.add_option('', '--chunksize', dest='chunksize', type="int",
                       default=1024 * 1024 * 8, help='Update file chunksize')
-    parser.add_option('', '--open-link', dest='open_link', action='store_true',
+    parser.add_option('', '--open-link', dest='open_link', action='store_true', default=True
                       help='Opens a url in a web browser to display the uploaded video')
 
     options, args = parser.parse_args(arguments)
