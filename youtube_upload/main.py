@@ -66,6 +66,28 @@ WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
 debug = lib.debug
 struct = collections.namedtuple
 
+#this doesn't need to be here, but you will need _winreg.
+
+def define_action_on(filetype, registry_title, command, title=None):
+    import _winreg
+    """
+    define_action_on(filetype, registry_title, command, title=None)
+        filetype: either an extension type (ex. ".txt") or one of the special values ("*" or "Directory"). Note that "*" is files only--if you'd like everything to have your action, it must be defined under "*" and "Directory"
+        registry_title: the title of the subkey, not important, but probably ought to be relevant. If title=None, this is the text that will show up in the context menu.
+    """
+    #all these opens/creates might not be the most efficient way to do it, but it was the best I could do safely, without assuming any keys were defined.
+    reg = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\Classes", 0, _winreg.KEY_SET_VALUE)
+    k1 = _winreg.CreateKey(reg, filetype) #handily, this won't delete a key if it's already there.
+    k2 = _winreg.CreateKey(k1, "shell")
+    k3 = _winreg.CreateKey(k2, registry_title)
+    k4 = _winreg.CreateKey(k3, "command")
+    if title != None:
+        _winreg.SetValueEx(k3, None, 0, _winreg.REG_SZ, title)
+    _winreg.SetValueEx(k4, None, 0, _winreg.REG_SZ, command)
+    _winreg.CloseKey(k3)
+    _winreg.CloseKey(k2)
+    _winreg.CloseKey(k1)
+    _winreg.CloseKey(reg)
 
 def open_link(url):
     """Opens a URL link in the client's browser."""
@@ -119,7 +141,12 @@ def get_category_id(category):
 def upload_youtube_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     u = lib.to_utf8
-    title = u(options.title)
+    try: 
+        title = u(options.title)
+    except:
+        title = u(video_path)
+     
+
     if hasattr(u('string'), 'decode'):
         description = u(options.description or "").decode("string-escape")
     else:
@@ -182,7 +209,7 @@ def get_youtube_handler(options):
 
 def parse_options_error(parser, options):
     """Check errors in options."""
-    required_options = ["title"]
+    required_options = []
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
@@ -191,9 +218,14 @@ def parse_options_error(parser, options):
 
 
 def run_main(parser, options, args, output=sys.stdout):
+    if (options.install) and (os.name == 'nt'):
+        define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube!")
+
+
     """Run the main scripts from the parsed options/args."""
     parse_options_error(parser, options)
     youtube = get_youtube_handler(options)
+
 
     if youtube:
         for index, video_path in enumerate(args):
@@ -219,6 +251,9 @@ def main(arguments):
 
     Upload videos to Youtube."""
     parser = optparse.OptionParser(usage)
+
+    parser.add_option('-i', '--install',
+                      help='Install context menu in explorer')
 
     # Video metadata
     parser.add_option('-t', '--title', dest='title', type="string",
