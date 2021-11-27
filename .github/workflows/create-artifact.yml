@@ -1,0 +1,14 @@
+name: create-artifact
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: apt-get install -y docker.io
+      - run: docker run -v "$PWD:/src" cdrx/pyinstaller-windows "pyinstaller -F --noupx youtube-upload.spec"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: youtube-upload.exe
+          path: dist/youtube-upload.exe
+
