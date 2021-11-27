@@ -21,6 +21,3 @@ rsa==4.8
 six==1.16.0
 uritemplate==4.1.1
 urllib3==1.26.7
-youtube-upload==0.8.0
-
-
