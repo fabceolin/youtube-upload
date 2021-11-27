@@ -219,7 +219,7 @@ def parse_options_error(parser, options):
 
 def run_main(parser, options, args, output=sys.stdout):
     if (options.install) and (os.name == 'nt'):
-        define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube!")
+        define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube")
         quit()
 
 

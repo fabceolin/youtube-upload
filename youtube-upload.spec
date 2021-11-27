@@ -4,13 +4,13 @@
 block_cipher = None
 
 
-a = Analysis(['bin\\youtube-upload'],
+a = Analysis(['bin/youtube-upload'],
              pathex=[],
              binaries=[],
              datas=[],
              hiddenimports=[
              "apiclient",
-             "youtube-upload"
+             "youtube_upload"
 
              ],
              
