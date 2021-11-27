@@ -306,7 +306,7 @@ def main(arguments):
     # Additional options
     parser.add_option('', '--chunksize', dest='chunksize', type="int",
                       default=1024 * 1024 * 8, help='Update file chunksize')
-    parser.add_option('', '--open-link', dest='open_link', action='store_true', default=True
+    parser.add_option('', '--open-link', dest='open_link', action='store_true', default=True,
                       help='Opens a url in a web browser to display the uploaded video')
 
     options, args = parser.parse_args(arguments)
