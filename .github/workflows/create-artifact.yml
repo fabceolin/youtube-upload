@@ -1,7 +1,7 @@
 name: create-artifact
 on: [push]
 jobs:
-  check-bats-version:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -10,4 +10,12 @@ jobs:
         with:
           name: youtube-upload.exe
           path: dist/youtube-upload.exe
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/youtube-upload.exe
+          asset_name: youtube-upload.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is the latest release"
 
