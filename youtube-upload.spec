@@ -8,7 +8,11 @@ a = Analysis(['bin\\youtube-upload'],
              pathex=[],
              binaries=[],
              datas=[],
-             hiddenimports=["apiclient"],
+             hiddenimports=[
+             "apiclient",
+             "youtube-upload"
+             ],
+             
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
