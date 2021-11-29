@@ -196,8 +196,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
 def get_youtube_handler(options):
     """Return the API Youtube object."""
     home = os.path.expanduser("~")
-    default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
-    client_secrets = options.client_secrets or os.path.join(home, ".client_secrets.json")
+    default_credentials = os.path.join(os.path.dirname(sys.argv[0]), ".youtube-upload-credentials.json")
+    client_secrets = options.client_secrets or os.path.join(os.path.dirname(sys.argv[0]), ".client_secrets.json")
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
@@ -220,7 +220,7 @@ def parse_options_error(parser, options):
 def run_main(parser, options, args, output=sys.stdout):
     if (options.install) and (os.name == 'nt'):
         define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube")
-        quit()
+        sys.exit()
 
 
     """Run the main scripts from the parsed options/args."""
