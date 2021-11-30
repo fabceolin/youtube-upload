@@ -141,10 +141,12 @@ def get_category_id(category):
 def upload_youtube_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     u = lib.to_utf8
-    try: 
-        title = u(options.title)
-    except:
-        title = u(video_path)
+
+    title_extencao = os.path.basename(video_path)
+
+    title_l = title_extencao.split(".")
+
+    title = title_l[0]
      
 
     if hasattr(u('string'), 'decode'):
@@ -219,7 +221,7 @@ def parse_options_error(parser, options):
 
 def run_main(parser, options, args, output=sys.stdout):
     if (options.install) and (os.name == 'nt'):
-        define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Send video to youtube")
+        define_action_on("*", "SendToYoutube", os.path.abspath(sys.argv[0]) + " \"%1\"", title="Enviar video para o youtube")
         sys.exit()
 
 
