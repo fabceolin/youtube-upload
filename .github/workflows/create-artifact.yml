@@ -18,4 +18,17 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
           body: "This is the latest release"
+      - run: docker run -v "$PWD:/src" cdrx/pyinstaller-linux "python setup.py install; pyinstaller -F --noupx youtube-upload.spec"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: youtube-upload
+          path: dist/youtube-upload
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/youtube-upload
+          asset_name: youtube-upload
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is the latest release"
 
