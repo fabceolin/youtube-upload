@@ -141,11 +141,13 @@ def get_category_id(category):
 def upload_youtube_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     u = lib.to_utf8
-    try: 
+
+    try:
         title = u(options.title)
     except:
-        title = u(video_path)
-     
+        title_extencao = os.path.basename(video_path)
+        title_l = title_extencao.split(".")
+        title = title_l[0]
 
     if hasattr(u('string'), 'decode'):
         description = u(options.description or "").decode("string-escape")
@@ -268,7 +270,7 @@ def main(arguments):
     parser.add_option('', '--tags', dest='tags', type="string",
                       help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
-                      default="public", help='Privacy status (public | unlisted | private)')
+                      default="unlisted", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
                       default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--license', dest='license', metavar="string",
