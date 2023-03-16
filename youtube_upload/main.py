@@ -270,7 +270,7 @@ def main(arguments):
     parser.add_option('', '--tags', dest='tags', type="string",
                       help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
-                      default="unlisted", help='Privacy status (public | unlisted | private)')
+                      default="private", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
                       default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--license', dest='license', metavar="string",
